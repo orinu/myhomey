@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+  <head>
+        <meta charset="utf-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+
+<style>
+    .divide {
+        border-left: 1px solid grey;
+        height: 60px;
+    }
+    .box {
+        width: 105px;
+        height: 30px;
+        padding: 2px;
+        border: 1px solid rgb(179, 179, 179);
+        margin: 10px;
+        }
+    .box:hover{
+        border: 2px solid rgb(75, 90, 229);
+    }
+    
+    .sticky{
+      position: -webkit-sticky;
+      position: sticky; 
+      margin: 0px 25px 25px 0px;
+      bottom: 1rem;
+    }
+      .textradio{
+          font-size: 15px;
+          color: black;
+          
+      }
+
+
+.delete-btn {
+  position: relative;
+  bottom: 1.7rem;
+  right: 0.000000001rem;
+  transform: translate(20%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #555;
+  color: white;
+  font-size: 16px;
+  padding: 1px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+  width: 1em;;  height: 1em;
+  visibility: hidden;
+}
+
+.delete-btn.add {
+  position: absolute;
+  bottom: 0.2rem;
+  left: 80px;
+  transform: translate(20%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #555;
+  color: white;
+  font-size: 16px;
+  padding: 1px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+  width: 1em;;  height: 1em;
+  visibility: hidden;
+}
+
+.modal.homepage{
+ /* position: absolute;;
+  margin:1px;
+  top:250px !important;
+  
+  width:400px; */
+  height:600px;
+  border-radius:40px;
+}
+
+.modal.contact{
+ /* position: absolute;;
+  margin:1px;
+  top:250px !important;
+  
+  width:400px; */
+  height:600px;
+  border-radius:40px;
+}
+#menu-modal {
+  height:950px;
+}
+
+.hometext{
+  font-size: 18px;
+}
+
+.homenumber{
+  font-size: 23px;
+  color: teal;
+  
+}
+
+.box-container { 
+  border:2px solid #ccc; 
+  width:250px; 
+  height: 440px; 
+  overflow-y: scroll; 
+}
+
+
+.box-container-firsttime { 
+  border:2px solid #ccc; 
+  width:950px; 
+  height: 300px; 
+  overflow-y: scroll; 
+}
+
+
+.name-add {
+  position: relative;
+  bottom: 1px;;
+  right: 20px;
+}
+
+.edit-menu{
+  position: absolute;
+  left: 90%;
+  bottom: 0rem;
+  
+}
+
+
+</style>
+
+<ul id="radio" class="dropdown-content">
+      </ul>
+
+<ul id="Tv" class="dropdown-content">
+</ul>
+
+    <nav>
+        <div class="nav-wrapper   indigo darken-4" >
+          <a href="#" class="brand-logo"> &nbsp;&nbsp;MyHomey&nbsp;&nbsp;	</a>
+          <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li> <a href="#contact-modal" id="contact-btn" class="contact modal-trigger" >צור קשר</a></li>
+            <li><a href="#contact-modal" class="btn-floating contact modal-trigger"  id="contact-btn"><i class="material-icons">email</i></a></li>
+
+              <!-- <li><a class="btn-floating contact modal-trigger" href="#contact-modal" ><i class="material-icons">create</i></a> -->
+            <li> <a href="#makehomepage-modal" class="homepage modal-trigger">הפוך לדף הבית</a></li>
+              <li><a href="#makehomepage-modal" class="btn-floating pulse  homepage modal-trigger"  id="homepage-btn"><i class="material-icons">home</i></a></li>
+            <li><a class="dropdown-trigger ddhover" href="#!" data-target="radio">רדיו חי<i class="material-icons left">arrow_drop_down</i></a></li>
+            <li><a class="dropdown-trigger ddhover" href="#!" data-target="Tv">טלוויזיה<i class="material-icons left">arrow_drop_down</i></a></li>
+          </ul>
+        </div>
+      </nav> 
+
+      <div class="row"></div>
+      <div class="row"></div>
+
+      
+
+      <div class="container up data">
+          <div class="row">
+              <div class="col s1"> </div>
+              <div class="col s2 center-align" > 
+                  <span id ="parasha"></span>
+
+                  <span></span><br>
+                  
+                  
+                </div>
+              <div class="col s1 divide center-align" ><i class="small material-icons ">attach_money</i> 
+                <br><span id="dollar">  </span>
+            </div>
+              <div class="col s1 center-align " > <i class="small material-icons">euro_symbol</i>
+                <br><span id="euro">  </span>
+            </div>
+            
+              <div class="col s2 divide center-align weather dropdown-trigger " data-target="wheather-dropdown"  >   <i class="small material-icons">wb_sunny</i>
+                <br><span id="weather"></span>
+            </div>
+              <div class="col s2 divide center-align time" >   <i class="small material-icons">access_time</i>
+                <br> <span id="time">    </span> 
+            </div>
+              <div class="col s2 divide date" > 
+                  <h6 class="teal-text"> <span style="font-size: 19px;" id="engdate">    </span> </h6> 
+                 <span id="hebdate"> <h6>     </h6> </span></div>
+          </div>
+        <div class="row">
+        <div class="col s1 "></div>
+          <div class="col s10 ">
+
+           <div class="divider"></div> </div>
+
+        </div>
+      </div>
+    </div>
+            
+    <div id="wheather-dropdown" class="dropdown-content">
+        <div>
+            <table class="highlight" id="weekWeather">
+              
+            </table>
+        </div>
+    </div>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+    
+      <div class="container">
+        <div class="col s10 offset-s2">
+          <div class="row"></div>
+          <div class="row"></div>
+            
+          <div class="row">
+                <div class="col s9 offset-s2" >
+                  
+                 <form id="searchForm" action="#" >
+
+                  <p> 
+                  <label class="radio" >
+                  <input name="group1" type="radio" id="radio1" value="גוגל" checked  data-ac="https://www.google.com/search" />
+                  <span>&nbsp</span><label class="right-align" ><span class="textradio"> גוגל&nbsp&nbsp</span></label></label>
+                
+                  <label class="radio" >
+                  <input name="group1" type="radio"  value="יוטיוב"  data-ac="https://www.youtube.com/search" />
+                  <span>&nbsp</span><label class="right-align" ><span class="textradio"> יוטיוב&nbsp&nbsp</span></label></label>             
+                
+                   <label class="radio" >
+                   <input name="group1" type="radio" value="תמונות"  data-ac="https://www.google.com/search?tbm=isch" />
+                   <span>&nbsp</span><label class="right-align" ><span class="textradio"> תמונות&nbsp&nbsp</span></label></label>
+               
+                   <label class="radio" >
+                   <input name="group1" type="radio"  value="ויקיפדיה"  data-ac="https://he.wikipedia.org/w/index.php" />
+                   <span>&nbsp</span><label class="right-align" ><span class="textradio"> ויקיפדיה&nbsp&nbsp</span></label></label>
+                   
+                   <label class="radio" >
+                   <input name="group1" type="radio" value="פינטרסט"  data-ac="https://www.pinterest.com/search" />
+                   <span>&nbsp</span><label class="right-align" ><span class="textradio"> פינטרסט&nbsp&nbsp</span></label></label>
+             </p> </form>
+                </div>
+            </div>
+
+                <div class="row" >
+                    <form action="https://www.google.com/search" class="searchform" method="get" name="searchform" target="_blank">
+                        <div class="col s2">
+                                <button class="btn search-btn" type="submit" style="margin: 5px;">חפש</button>
+                        </div>
+                    <div class="col s9">
+                          
+                          <input name="sitesearch" type="hidden" class="sitesearch">
+                          <input autocomplete="on" class="form-control search" name="q" placeholder="חיפוש בגוגל" required="required"  type="text" autofocus id="searchfield">
+                    </div>
+                    </form>
+
+                </div>
+            </div>   
+      </div>
+
+      
+      <div class="row"></div>
+      <div class="row"></div>
+   
+
+      <div class="container" id="container">
+          
+          <!--    
+        <div class="container-1 divbutton">
+            <div class="row -1">
+                <div class="col s1"></div>
+                <div class="col s10">
+                    
+                <h5 class="teal-text">ddd</h5>
+                <div class="row"></div>
+                <div class="divider"></div>
+                
+                <ui class="link-list" id="menu" container-name="menu">
+                    <li class="box responsive-img waves-effect waves-light" data-position="0">
+                      <a href="" target="_blank"> 
+                        <img class="responsive-img waves-effect waves-light" src="../dist/img/11Kan.png" draggable="true" >
+                      </a> </li></a>
+                
+                </ui>                            
+                                    
+                    </div>
+                    <div class="col s1"><a href="#top" id="movebtn" style="display:none" data-movebtn="movebtn1" class="data-movebtn waves-effect waves-light btn btn-floating" ><i draggable="true" class="material-icons">unfold_more</i></a></div>
+                </div>
+              </div>
+    
+              <div class="container-2 divbutton">
+                <div class="row -2 ">
+                  <div class="col s1"></div>
+                  <div class="col s10">
+                  <h5 class="teal-text">חדשות</h5>
+                  <div class="row"></div>
+                  <div class="divider"></div>
+                  
+                  <ui class="link-list" id="news" container-name="news">
+                 
+                 
+                  </ui>                            
+                                      
+                      </div>
+                      <div class="col s1"><a href="#top" id="movebtn" style="display:none" data-movebtn="movebtn1" class="data-movebtn waves-effect waves-light btn btn-floating"><i draggable="true" class="material-icons">unfold_more</i></a></div>
+                  </div>
+                  </div>
+
+                  <div class="container-3 divbutton">
+                      <div class="row -3 ">
+                        <div class="col s1"></div>
+                        <div class="col s10">
+                        <h5 class="teal-text">טיולים</h5>
+                        <div class="row"></div>
+                        <div class="divider"></div>
+                        
+                        <ui class="link-list" id="travels" container-name="travels">
+                    
+                        </ui>                            
+                                            
+                            </div>
+                            <div class="col s1"><a href="#top" id="movebtn" style="display:none" data-movebtn="movebtn1" class="data-movebtn waves-effect waves-light btn btn-floating" ><i draggable="true" class="material-icons">unfold_more</i></a></div>
+                        </div>
+                        </div>
+                      -->
+
+
+
+          </div>
+          <div id="wheather"></div>
+          <!-- Element Showed -->
+          <div class="fixed-action-btn">
+            <a href="#top" style="display:none" class="btn-floating btn-large waves-light waves-effect sticky">
+              <i class="large material-icons">arrow_upward</i>
+            </a>
+          
+  
+    <!--JavaScript at end of body for optimized loading-->
+    <!--<script type="text/javascript" src="js/materialize.min.js"></script> -->
+
+    <!-- contact -->
+    <div id="contact-modal" class="modal contact">
+        <div class="modal-content" id ="contact">
+            <h4 class="teal-text" >טוב להיות בקשר</h4>
+            
+            <br><br>
+          <div class="row" id="contact-content">
+            
+          </div>
+      </div>
+    </div>
+
+
+    <!-- browser adjus-->
+    <div id="makehomepage-modal" class="modal homepage">
+        <div class="modal-content" id ="homepagecontent">
+       
+        </div>
+      </div>
+      
+       <!-- first time enter modal-->
+      <a  id="first-time-button" class="waves-effect waves-light btn modal-trigger" href="#firstTime" style="display: none">Modal</a>
+    <div id="firstTime" class="modal firsttime">
+        <div class="modal-content">
+            <h4 class="teal-text" ><span> ברוכים הבאים ל-</span><span>&nbsp;MyHomey,&nbsp;</span><span>אתר הבית שלכם</span>
+              <div class="row"> </div>
+            <div class="divider"></div>
+            <div class="row"> </div>
+            <h5> נשמח לעזור לך להגדיר את התפריט האישי שלך בכמה שניות</h5><br>
+              <div >
+              <span class="hometext" id="sub-title-first-time">בחר את האתרים אשר תרצה להוסיף לתפריט האישי שלך:</span><br>
+              <br>
+              </div>
+              <div class="row">
+                <div class="col s1">
+                  <br><br><br><br><br>
+                  <a herf="#!" class="waves-effect waves-light " id="next-firsttime"> <i class="large material-icons teal-text">arrow_back</i> </a>
+                </div>
+                <div class="col s1"></div>
+                  <div class="col s9 box-container-firsttime">
+                      <h5 class="right-align teal-text " id="firsttime-title"></h5>
+                      <div class="divider"></div><br>
+                      <ui class="link-list" id="firsttime-links">
+                      </ui>                 
+              </div>
+            </div>
+                <div class="row">
+          
+                  <div class="col s1"><a href="#!" class="waves-effect modal-close waves-light btn">דלג</a></div>    
+              </div>
+
+              </div>
+        </div>
+          
+  <!-- Modal Structure -->
+  <div id="menu-modal" class="modal">
+    <div class="modal-content">
+        <h4 class="teal-text" >שינוי תפריט אישי</h4>
+        <div>
+
+        </div>
+        <div class="divider"></div>
+
+        <div class="row">
+            <div class="col s2">
+                <span style="font-size: 15px; font-weight: bold;">הוסף קישור ידני</span>
+                <form class=add-link-form>
+                <div>
+                    <div class="row"></div>
+                    <input placeholder="www.MyHomey.co.il" id="add-link" type="text" class="validate">
+                    <label for="first_name">כתובת אתר</label>
+                </div>
+                <button class="btn-small add-link left-align" type="submit" style="margin: 50px 70px 0 0;">הוסף</button>
+            </div>
+            </form>
+          
+          <div class="col s5">
+              <span style="font-size: 15px; font-weight: bold;">
+              <span  >גרור לשנות מיקום או לחץ על</span><span style="color: red"> x </span><span>כדי למחוק:</span>  </span>
+              <div class="row"></div>
+
+              <div class="box-container displaymenu">
+                <table id="displaymenu" class="menumenu">
+           <!--       <tr>
+                    <td class="right-align">
+                        dddd
+                    </td>
+                    <td>
+                        <i class="small material-icons red-text text-darken-2">close</i></li>
+                    </td>
+                  </tr>
+                  -->
+
+                </table>
+              </div>
+          </div>
+      
+          <div class="col s5">
+            <span style="font-size: 15px; font-weight: bold;">
+              <span  >גרור או לחץ על</span><span style="color: green"> + </span><span>כדי להוסיף:</span>  </span>
+              <div class="row"></div>
+
+              <div class="box-container">
+                  <table id="addtomenu" class="menumenu">      
+                 <!--    <caption class="right-align" style="font-weight: bold; font-size: 15px;"  >חדשות</caption>
+                      <div class="divider"></div>
+                      <tr>
+                       <td class="right-align" > dddd </td>
+                       <td> <i class="small material-icons green-text text-darken-2">add</i></li> </td>
+                      </tr>
+                      <tr>
+                       <td class="right-align" > dddd </td>
+                       <td> <i class="small material-icons green-text text-darken-2">add</i></li> </td>
+                      </tr> -->
+                    
+                   </table>
+              </div>
+          </div>
+        </div>
+    </div>
+    <div>
+        <div class="col s1"><a href="#!" class="waves-effect modal-close waves-light btn" style="position: absolute; bottom: 20px; left:20px;">סיימתי</a></div>    
+    </div>
+  </div>
+          
+
+  </body>
+</html>
