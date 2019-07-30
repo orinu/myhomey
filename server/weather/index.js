@@ -1,79 +1,74 @@
-var fs = require('fs');
-var path = require('path')
 const axios = require('axios');
-const jsonPath = path.join(__dirname,"./data.json");
-var data = require(jsonPath); 
+const Weather = require('../db/models/weather')
+require('../db/mongoose')
 
-
-function saveData() {
-    var json = JSON.stringify(data);
-    fs.writeFile(jsonPath, json, function(err, result) {
-        if(err) console.log('error', err);
-    });
-
-}
-
-//get q from the server - cookies data 
-function queryWeather(city,lon,lat) {
-    console.log(city);
-    //no city sstring - problem with the ip-api
-    if (!city) {
-        throw new Error('No city string');
-    }
-    //the city already in the server data
-    if (data[city] !== undefined) {
-        console.log('exist');
-        return data[city];
-    //not exist in the data get the data and save
-    }else {
-        getWeather(city,lon,lat).then(() => {
-            return data[city];
-        });
-        
-    }
-}
 
 //get whether data 
 async function getWeather(city,lon,lat) {
-    const proxy = 'https://cors-anywhere.herokuapp.com/';
     try{
-    const api = `https://api.darksky.net/forecast/321eb5bdb50ea50ecad85f4a28a4c67d/${lat},${lon}?units=si`;
+    const api = `${process.env.SENDURL_WEATHER_API}${lat},${lon}?units=si`;
         const res = await axios(`${api}`);
-        data[city] = {};
-        data[city].MaxTemp = [], data[city].MinTemp = [],  data[city].icon =[];
+        var MaxTemp = [], MinTemp =[], icon=[];
+        //insert data to array
         for (var i =1; i<8; i++) {
-            data[city].MaxTemp.push(Math.round(res.data.daily.data[i].temperatureMax));
-            data[city].MinTemp.push(Math.round(res.data.daily.data[i].temperatureLow));
-            data[city].icon.push(res.data.daily.data[i].icon);
+            MaxTemp.push(Math.round(res.data.daily.data[i].temperatureMax));
+            MinTemp.push(Math.round(res.data.daily.data[i].temperatureLow));
+            icon.push(res.data.daily.data[i].icon);
         }
-        data[city].lat = lat;
-        data[city].lon = lon;
-        data[city].timestamp = new Date();
-        saveData() 
-
-    }catch (error) {
-        console.log(error);
-    }
-}
-
-
-function updateWeatherData(i) {
-        const citys = Object.keys(data);
-        setTimeout(function() {
-        //getWeather(citys[i],data[citys[i][lat]])
-        getWeather(citys[i],data[citys[i]].lon,data[citys[i]].lat); 
+        
         var d  = new Date(); 
-        var datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +
+        const datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +
         d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-
-        console.log (i, datestring);  
-        i--;
-        if (i>-1) {
-            updateWeatherData(i);
+        //define qury
+        var query = {'cityName':city};
+        //define the data that need to update
+        newData = 
+        {'cityName':city, 
+        'MaxTemp':MaxTemp, 
+        'MinTemp':MinTemp,  
+        'icon':icon ,
+        'lat':lat ,
+        'lon':lon ,
+        'timestamp':d} 
+      
+        //update data
+        Weather.updateOne(query, newData, {upsert:true}, function(err, doc){
+        if (err) {
+            console.log(err)
+            return;}
+        console.log("succesfully saved");
+        console.log(doc);
+        return; 
+        });
+        
+        }catch (error) {
+            console.log(error);
         }
-        },10*1000);
-}
+    }
 
-// updateWeatherData(Object.keys(data).length-1);
-const timerUpdateWeatherData = setInterval(function () {updateWeatherData(Object.keys(data).length-1) },2*60*60*1000);//two hours
-module.exports = {queryWeather,updateWeatherData}
+//update data in place i of the db
+function updateWeatherData(i) {
+    //get all cities from db
+    console.log(i);
+    Weather.find({  }, function (err, docs) {
+        setTimeout(function() {
+            //update data for city in play i
+            getWeather(docs[i].cityName,docs[i].lon,docs[i].lat);
+            //dic i
+            i--;
+            if (i>-1) {
+                updateWeatherData(i);
+            }
+            },10*1000);
+     })
+    }
+    
+// send to updateWeatherData the number of cities in db from 0
+function callUpdate() {
+    Weather.find({ }, function (err, docs) {
+        updateWeatherData(docs.length-1) })
+    }
+
+// define timer of updating
+const timerUpdateWeatherData = setInterval(function () {callUpdate() },2*60*60*1000);//two hours
+module.exports =  { updateWeatherData }

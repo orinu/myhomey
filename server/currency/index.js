@@ -1,32 +1,10 @@
-var fs = require('fs');
-var path = require('path')
+require('../db/mongoose')
 const axios = require('axios');
+const Currency = require('../db/models/currency')
 var DOMParser = require('xmldom').DOMParser
 var parser = new DOMParser();
 
-//meke a global varible from the json name data
-const jsonPath = path.join(__dirname,"./data.json");
-var data = require(jsonPath); 
 
-//save json file
-function saveData() {
-    var json = JSON.stringify(data);
-    fs.writeFile(jsonPath, json, function(err, result) {
-        if(err) console.log('error', err);
-    });
-}
-
-
-//get q from the server - cookies data 
-function queryCurrency(num) {
-    //the city already in the server data
-    if (data[num] !== undefined) {
-        return data[num];
-    //not exist in the data get the data and save
-    }else {
-    throw new Error('No currency number in the data');
-    }
-}
 
 //get currency data from bank of israel
 async function getCurrency(num) {
@@ -37,42 +15,71 @@ async function getCurrency(num) {
         const  res = await axios.get(`${url}`);      
         var xml = parser.parseFromString(res.data, "text/xml");
         //get data from the xml return
-        data[num].rate = Math.round(xml.getElementsByTagName('RATE')[0].childNodes[0].data * 100) / 100;
-        data[num].name = xml.getElementsByTagName('NAME')[0].childNodes[0].data;
-        data[num].change = xml.getElementsByTagName('CHANGE')[0].childNodes[0].data;
+        const rate = Math.round(xml.getElementsByTagName('RATE')[0].childNodes[0].data * 100) / 100;
+        const name = xml.getElementsByTagName('NAME')[0].childNodes[0].data;
+        const change = xml.getElementsByTagName('CHANGE')[0].childNodes[0].data;
         //insert datestamp
         var d  = new Date(); 
-        var datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +
-        d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-        data[num].datestamp = datestring;
-        //save data
-        saveData() 
+        const datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +
+        d.getFullYear() + "  " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
 
-    } catch(error) {
-        console.log(error);
+        //define query
+        var query = {'currencyNumber':num};
+        //defince new data
+        newData = 
+        {'rate':rate, 
+        'name':name,  
+        'change':change ,
+        'datestamp':d} 
+        
+        //update new data in the db
+        Currency.updateOne(query, newData, {upsert:true}, function(err, doc){
+            if (err) {
+                console.log(err)
+                return;}
+        console.log("succesfully saved");
+        return; 
+        });
+
+        } catch(error) {
+            console.log(error);
     };
 }
 
-
+//update data in place i of the db
 function updateCurrencyData(i) {
-    const currency = Object.keys(data);
+    //get all the currency from db
+    Currency.find({  }, 'currencyNumber', function (err, docs) {
+        setTimeout(function() {
+            console.log(i)
+            //fix the number with 0 if needed
+            let fixNumber;
+            if (docs[i].currencyNumber<10) {
+                fixNumber = ('00'+docs[i].currencyNumber).slice(-2);
+                getCurrency(fixNumber); 
+            }else {
+                getCurrency(docs[i].currencyNumber);
+            }
+            //dic i
+            i--;
+            //recursion until the end of the list e
+            if (i>-1) {
+                updateCurrencyData(i);
+            }
+            },10*1000);
 
-    setTimeout(function() {
-    getCurrency(currency[i]); 
-    var d  = new Date(); 
-    var datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +
-    d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-
-    console.log (i, datestring);  
-    i--;
-    if (i>-1) {
-        updateCurrencyData(i);
-    }
-    },10*1000);
+     })
+    
 }
 
-// updateCurrency
-const timerUpdateCurrencyData = setInterval(function () {updateCurrencyData(Object.keys(data).length-1) },1*60*60*1000);//one hours
+    
+// send to updateCurrencyData the number of currencies in db from 0
+function callUpdate() {
+    Currency.find({ }, function (err, docs) {
+        updateCurrencyData(docs.length-1) 
+    })}
 
 
-module.exports = {queryCurrency, getCurrency}
+// define timer of updating
+const timerUpdateCurrencyData = setInterval(function () {callUpdate() },60*60*1000);//one hours
+module.exports = { getCurrency}

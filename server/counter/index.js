@@ -1,26 +1,17 @@
-var fs = require('fs');
-var path = require('path')
+const Counter = require('../db/models/counter')
+require('../db/mongoose')
 
-//meke a global varible from the json name data
-const jsonPath = path.join(__dirname,"./data.json");
-var data = require(jsonPath);
-
-//save json file
-function saveData() {
-    var json = JSON.stringify(data);
-    fs.writeFile(jsonPath, json, function(err, result) {
-        if(err) console.log('error', err);
+//if user enter counter up the count by 1
+function counter() {
+    Counter.updateOne({name:'general'} , {$inc: {totalVisitors:1}} ,function (err, data) {
+        // console.log(data)
+        if (err) console.log(err)
     });
 }
 
-function counter() {
-    const count = data.totalCount+1;
-    data.totalCount = count;
-    saveData()
-}
-
+//return promise of totalVisitors from the db
 function getTotalCounter() {
-    return data.totalCount;
+    return Counter.find({ name:'general' }).exec()
 }
 
 module.exports = {counter, getTotalCounter}

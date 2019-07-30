@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development",
+    "dev": "ewebpack --mode development",
     "build": "webpack --mode production",
-    "start": "webpack-dev-server --mode development --open"
+    "start": "webpack-dev-server --mode development --open",
+    "server": "env-cmd -f ./config/dev.env node server/app.js"
   },
   "author": "",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "jquery": "^3.4.1",
     "jquery-ui-bundle": "^1.12.1-migrate",
     "materialize-css": "^1.0.0-rc.2",
+    "mongoose": "^5.6.7",
     "nodemailer": "^6.2.1",
     "xmldom": "^0.1.27",
     "xmlhttprequest": "^1.8.0"
@@ -32,6 +34,7 @@
     "babel-loader": "^8.0.6",
     "case-sensitive-paths-webpack-plugin": "^2.2.0",
     "css-loader": "^2.1.1",
+    "env-cmd": "^9.0.3",
     "file-loader": "^3.0.1",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",

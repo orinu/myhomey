@@ -3,17 +3,20 @@ const express =require('express')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 var bodyParser = require('body-parser')
-var {queryWeather} = require('./weather')
-var {queryCurrency} = require('./currency/index')
 var {counter, getTotalCounter} = require('./counter/index')
 var nodemailer = require('nodemailer');
+
+require('./db/mongoose')
+require('./currency/index')
+const Currency = require('./db/models/currency')
+const Weather = require('./db/models/weather')
 
 //setting of nodemailer
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-           user: 'homeyhomeyhomeyhomeyhomey@gmail.com',
-           pass: 'homeywebhomey'
+           user: process.env.MYHOMY_EMAIL_USER,
+           pass: process.env.MYHOMY_EMAIL_PASS
        }
    });
 
@@ -34,15 +37,31 @@ app.get ('', (req,res) => {
 
 
 
-app.get ('/weather', (req,res) => {
-  //visitor counter - weather call when user open website
+app.get ('/weather', async(req,res) => {
+    //visitor counter - weather call when user open website
     counter();
     //weather
-    console.log(req.cookies.city, req.cookies.lon, req.cookies.lat)
-    res.send( queryWeather(req.cookies.city, req.cookies.lon, req.cookies.lat))
-})
 
-app.get ('/currency', (req,res) => {
+    //no cookies body
+    if (!req.cookies.city) {
+    return res.send( {
+      'error': 'problem with city data'
+    }) }
+    //query of cityName from data
+    try {
+    const cityName = await Weather.find({cityName:req.cookies.city})
+    res.send(cityName[0])
+    } catch (e) {
+      res.status(500).send()
+  }
+    
+  })
+
+    // console.log(req.cookies.city, req.cookies.lon, req.cookies.lat)
+    // res.send( queryWeather(req.cookies.city, req.cookies.lon, req.cookies.lat))
+
+
+app.get ('/currency', async(req,res) => {
   //no query body
   if (!req.query.curnum) {
     return res.send( {
@@ -54,7 +73,14 @@ app.get ('/currency', (req,res) => {
     if (req.query.curnum<10) {
         fixNumber = ('00'+req.query.curnum).slice(-2);
     }
-    res.send( queryCurrency(fixNumber))
+    //query of currency number from the sql
+    try {
+    const cur = await Currency.find({currencyNumber:fixNumber})
+    res.send(cur[0])
+    } catch (e) {
+      res.status(500).send()
+  }
+    
   })
 
 
@@ -65,7 +91,7 @@ app.post('/contact', (req,res) => {
         from: 'homeyhomeyhomeyhomeyhomey@gmail.com', // sender address
         to: 'ori@ezracpa.co.il', 
         subject: 'פנייה חדשה מאתר Homey', // Subject line
-        html: `<p>name:&emsp;${getTotalCounter()}<br>phone:&emsp;${req.body.phone}<br>email:&emsp;${req.body.email}<br>text:&emsp;${req.body.text}<br></p>`// plain text body
+        html: `<p>name:&emsp;${req.body.name}<br>phone:&emsp;${req.body.phone}<br>email:&emsp;${req.body.email}<br>text:&emsp;${req.body.text}<br></p>`// plain text body
       };
     transporter.sendMail(mailOptions, function (err, info) {
         if(err)
@@ -78,15 +104,18 @@ app.post('/contact', (req,res) => {
 //send total visitor via mail
 app.get ('/counter', (req,res) => {
     sendCounter()
+    return res.send(200, { message: 'ok' });
 })
 
 
-function sendCounter () {
+async function sendCounter () {
+  const res = await getTotalCounter();
+  const totalCounter = res[0].totalVisitors;
   const mailOptions = {
     from: 'homeyhomeyhomeyhomeyhomey@gmail.com', // sender address
     to: 'ori@ezracpa.co.il', 
     subject: 'counter Homey', // Subject line
-    html: `<p>total counter:&emsp;${getTotalCounter()}</p>`// plain text body
+    html: `<p>total counter:&emsp;${totalCounter}</p>`// plain text body
   };
   transporter.sendMail(mailOptions, function (err, info) {
     if(err)
