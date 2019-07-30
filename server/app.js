@@ -3,11 +3,13 @@ const express =require('express')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 var bodyParser = require('body-parser')
-var {counter, getTotalCounter} = require('./counter/index')
 var nodemailer = require('nodemailer');
 
+const { setIntervalCurrency} = require('./currency/index')
+const { setIntervalWeather} = require('./weather/index')
+var {counter, getTotalCounter} = require('./counter/index')
+
 require('./db/mongoose')
-require('./currency/index')
 const Currency = require('./db/models/currency')
 const Weather = require('./db/models/weather')
 
@@ -30,6 +32,10 @@ app.use(express.static(dist));
 app.use(cookieParser());
 app.use(cors());
 app.use(bodyParser());
+
+//start data get intervals
+setIntervalCurrency()
+setIntervalWeather()
 
 app.get ('', (req,res) => {
     res.render('index.html');
