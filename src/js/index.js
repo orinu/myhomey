@@ -464,10 +464,9 @@ function getContactHtml ()  {
   e.preventDefault();
   //get the container name
   const contaienr = $(this).parent().parent().parent().attr('id');
-  console.log(contaienr);
+
   //get the data position of the deleted link
   const position = $(this).parent().parent().attr("data-position");
-  console.log(position);
   //the number of links after deleting
   const last = Object.keys(data.links[contaienr]).length-2;
   
