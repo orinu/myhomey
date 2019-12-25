@@ -104,8 +104,6 @@ shabat();
 //FETCH DATA
 //fetch.fetchLinks();
 
-
-
 $(function() { 
 
   //Nav dropdown
@@ -258,6 +256,8 @@ function removeItemMenuMenu(thisObj) {
     //update the links in the main menu 
     fetch.fetchMenu();
 }
+
+
 
 
 //MenuMenu d&d
@@ -458,20 +458,26 @@ function getContactHtml ()  {
 
     });
 
-    //Delete item
-  
+
+  //Delete item
   $(document).on("click", '.delete-btn' , function(e) {
   e.preventDefault();
   //get the container name
   const contaienr = $(this).parent().parent().parent().attr('id');
+  console.log(contaienr);
   //get the data position of the deleted link
   const position = $(this).parent().parent().attr("data-position");
+  console.log(position);
   //the number of links after deleting
   const last = Object.keys(data.links[contaienr]).length-2;
- 
-  //run on the object and change the data
+  
+ //from the deleted item up to the last el
   for (var i=position; i<=last; i++) {
+    // change the data in the primary object
     data.links[contaienr][i] = data.links[contaienr][parseInt(i)+1];
+    // countdown keymenu and potion of the item in the menu
+    $("[data-keymenu="+i+"]").attr("data-keymenu", parseInt(i)-1)
+    $("[data-position="+i+"]").attr("data-position", parseInt(i)-1)
   }
   //delete the last row
   delete data.links[contaienr][last];
