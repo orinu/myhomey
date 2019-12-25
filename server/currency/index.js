@@ -82,7 +82,8 @@ function callUpdate() {
 
 // define timer of updating
 function setIntervalCurrency(){
-    const timerUpdateCurrencyData = setInterval(function () {callUpdate() },60*60*1000);//one hours
+    callUpdate();
+    const timerUpdateCurrencyData = setInterval(function () {callUpdate() },10*60*1000);//ten minutes
 }
 
 module.exports = { setIntervalCurrency,getCurrency}

@@ -119,6 +119,15 @@ module.exports =  class DateFormat{
         return `${day}.${month}.${year}`;
     }
 
+    getEngDatewSlash(){
+        let day = this.today.getDate();
+        (day<10) ? day = "0" +day: "";
+        let month = this.today.getMonth()+1;
+        (month<10) ? month = "0" +month: "";
+        const year = this.today.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
     //send a date and return with the form with no add 1 to the month
     getEngDateFromOutSide(){
         let day = this.today.getDate();

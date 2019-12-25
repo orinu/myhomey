@@ -71,6 +71,7 @@ function callUpdate() {
 
 // define timer of updating
 function setIntervalWeather(){
-    const timerUpdateWeatherData = setInterval(function () {callUpdate() },2*60*60*1000);//two hours
+    callUpdate()
+    const timerUpdateWeatherData = setInterval(function () {callUpdate() },15*60*1000);//fifteen minutes
 }
 module.exports =  { setIntervalWeather,updateWeatherData }
