@@ -1,78 +1,8 @@
-let data ={};
+//copy links in data and get the html code fot the buttom of webpage for google
+//dont copy the first </div>
+//all the html data will be after numbers for ez coping eazy
 
-  data = {
-    
-    user: {
-      'firstTime': 'yes',
-    //   'city': '',
-    //   'lat': '',
-    //   'lon': '',
-
-
-   },
-    radio: {
-      "גלגל״צ":"https://glz.co.il/גלגלצ",
-      "גל״צ":`https://glz.co.il/גלצ`,
-      "כאן ב'":`https://www.kan.org.il/radio/player.aspx?stationId=3`,
-      "כאן גימל":`https://www.kan.org.il/radio/player.aspx?stationId=9`,
-      "Eco99FM":`http://eco99fm.maariv.co.il/`,
-      "100FM רדיוס":`http://www.100fm.co.il/`,
-      "102 רדיו תל אביב":`http://102fm.co.il/`,
-      "103FM":`https://103fm.maariv.co.il/`,
-      "קול המוסיקה":`https://www.kan.org.il/live/radio.aspx?stationId=7`,
-      "כאן תרבות":`https://www.kan.org.il/live/radio.aspx?stationId=5`,
-      "כאן 88":`https://www.kan.org.il/live/radio.aspx?stationId=4`,
-      "כאן מורשת":`https://www.kan.org.il/live/radio.aspx?stationId=6`,
-      "גלי ישראל":`http://www.gly.co.il/`,
-      "ערוץ 7":`https://www.inn.co.il/Radio/Stream/-1`,
-      "רדיו ירושלים":`https://www.rlive.co.il/station/101fm`,
-      "רדיו חיפה":`https://www.1075.fm/`,
-      "לב המדינה":`https://91fm.co.il/`,
-      "אמצע הדרך 90":`http://live1.co.il/90fm/`,
-      "הים האדום":`http://www.eilat102fm.com/`,
-      "רדיו דרום":`http://www.radiodarom.co.il/`,
-      "קול רגע":`http://www.96fm.co.il/`,
-      "קול חי":`http://www.93fm.co.il/onair.html`  
-    },
-  
-    tv: {
-      live: {
-        "13 ערוץ רשת":`https://13tv.co.il/live/`,
-        "12 ערוץ קשת":`https://www.mako.co.il/mako-vod-live-tv/VOD-6540b8dcb64fd31006.htm`,
-        "כאן 11":`https://www.kan.org.il/live/tv.aspx?stationId=2`,
-        "כאן 33":`https://www.makan.org.il/live/tv.aspx?stationid=3`,
-        "ערוץ 20":`https://www.20il.co.il/vod/`,
-        "ערוץ הכנסת":`https://main.knesset.gov.il/News/Broadcast/Pages/default.aspx`,
-        "ערוץ הקבלה":`http://www.kab.co.il/kabbalah/%D7%98%D7%9C%D7%95%D7%95%D7%99%D7%96%D7%99%D7%94`
-      }, 
-      vod: {
-        "מאקו":`https://www.mako.co.il/mako-vod`,
-        "רשת":`https://reshet.tv/Shows/VOD/`,
-        "ערוץ 10":`https://www.10.tv/`,
-        "וואלה":`https://vod.walla.co.il/?m=1`,
-        "Sport 5":`https://vod.sport5.co.il/`,
-        "Sport One":`https://www.one.co.il/VOD/`,
-        "Bizportal":`http://www.bizportal.co.il/video`,
-        "calcalist":`https://www.calcalist.co.il/home/0,7340,L-3704-65221,00.html`
-      }
-  
-      
-    },
-    version: {
-      1: {
-        // news: 15,
-        // finance: 6,
-        // banks: 9
-      },
-      2: {
-        // news: 15,
-        // finance: 14,
-        // extra: 15
-      }
-      
-    },
-
-    links: {
+const links =  {
 
     menu: {
       0:["https://mail.google.com/mail/u/0/","./img/gmail.jpg",`ג׳ימיל`,`gmdil`,101],
@@ -343,6 +273,44 @@ let data ={};
           'name': "קריפטו"
         }
     }
-  };
 
-export default data;
+
+
+
+let linksHtml = '';
+
+//every five title open ip a new row
+const mod5 = `</div>
+                <div class="row">
+                 <div class="col s1" ></div>`
+
+
+//put all the links keys in keys array
+const keys = Object.keys(links);
+
+for (let i=0; i<keys.length; i++) {
+  //if mod 5 insert the mod 5 data
+  if ((i % 5) == 0){
+    linksHtml += mod5;
+  }
+  //before any title insert the open html and the links
+  linksHtml +=  `<div class="col s2" >
+                 <p class="bold teal-text"><u>${links[keys[i]].name}</u></p>
+                 <ul>`;
+  ////put all the keys of titls in keys linksInObject
+  let linksInObject = Object.keys(links[keys[i]]);
+
+  //link handle
+  for (let j=0;j<linksInObject.length-1; j++) {
+    console.log(linksInObject[j][0])
+    //for evrey link insert the link data
+    linksHtml +=  `<li><a href="${links[keys[i]][linksInObject[j]][0]}"  style="color: black" target="_blank">${links[keys[i]][linksInObject[j]][2]}</a></li>` 
+    //if is the last link end the html title container
+    if (j==linksInObject.length-2) {
+      linksHtml += `</ul>
+                      </div>`
+   }
+  }
+}
+
+console.log(linksHtml);
