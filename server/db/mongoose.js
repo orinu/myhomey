@@ -4,8 +4,8 @@ const mongoose = require('mongoose')
 
 
 
-//'mongodb://localhost:27017/homepage'
-mongoose.connect(/*process.env.MONGODB_URL*/ 'mongodb://localhost:27017/hompage' ,{
+
+mongoose.connect(process.env.MONGODB_URL /*'mongodb://localhost:27017/hompage'*/ ,{
     useNewUrlParser: true,
     useCreateIndex: true
 })
