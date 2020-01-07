@@ -12,7 +12,8 @@ async function getCurrency(num) {
 
     try {
 
-        const  res = await axios.get(`${url}`);      
+        const  res = await axios.get(`${url}`);     
+        console.log(res);
         var xml = parser.parseFromString(res.data, "text/xml");
         //get data from the xml return
         const rate = Math.round(xml.getElementsByTagName('RATE')[0].childNodes[0].data * 100) / 100;

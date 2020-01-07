@@ -1,10 +1,11 @@
 const mongoose = require('mongoose')
-const Counter = require('./models/counter')
+// const Counter = require('./models/counter')
 
 
 
 
-mongoose.connect(process.env.MONGODB_URL, {
+//'mongodb://localhost:27017/homepage'
+mongoose.connect(/*process.env.MONGODB_URL*/ 'mongodb://localhost:27017/hompage' ,{
     useNewUrlParser: true,
     useCreateIndex: true
 })

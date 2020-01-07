@@ -13,8 +13,10 @@ lastWeek.setDate( beforeYesterday.getDate()-8 );
 //Open new row in the DB and save the data
 async function insertNewDayCounterDb() {
     const date = new Date();
+    console.log(date);
 
     const newRow = new Counter({
+        name: 'daily',
         name: 'daily',
         date: date,
         daily: await getLastDayVisitors(),
@@ -22,11 +24,12 @@ async function insertNewDayCounterDb() {
         totalVisitors: await getTotalVisitors()
     })
 
-    newRow.save().then(() => {
-      console.log("Daily counter record update sucssefully"  ,'\n' ,"The new record:",'\n', newRow);
-    }).catch((error) => {
-      console.log(error);
-})
+    console.log(newRow)
+//     newRow.save().then(() => {
+//       console.log("Daily counter record update sucssefully"  ,'\n' ,"The new record:",'\n', newRow);
+//     }).catch((error) => {
+//       console.log(error);
+// })
 }
 
 //get the delta visitor between the total visitor to last record 
@@ -100,7 +103,7 @@ async function getTotalVisitors() {
 }
 
 //LOCALY CHECK
-insertNewDayCounterDb().then(r => console.log(r));
+// insertNewDayCounterDb().then(r => console.log(r));
 // getLastDayVisitors().then((r => console.log(r)))
 // sumMonth().then((r => console.log(r)))
 
