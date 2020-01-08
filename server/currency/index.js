@@ -5,54 +5,36 @@ var DOMParser = require('xmldom').DOMParser
 var parser = new DOMParser();
 
 
-async function getData(url) {
-    try {
-       let res = await axios({
-            url: url,
-            method: 'get',
-            timeout: 8000,
-            headers: {
-                Cookie: `rrrr9bf16d56=a2be3f01rrrr9bf16d56_a2be3f01;`
-            }
-        })
-        if(res.status == 200){
-            // test for status you want, etc
-            console.log(res.status)
-
-        }    
-        return res
-    }
-    catch (err) {
-        console.error(err);
-    }
-}
-
 //get currency data from bank of israel
 async function getCurrency(num) {
     const url = `http://www.boi.org.il/currency.xml?curr=0${num}`;
 
     try {
+        //define cookie 
+        let cookieName = 'cookieName';
+        let cookieValue = 'cookieValue';
+        //send the url and the cookies in try to get data
+        let res = await getData(url, cookieName ,cookieValue);   
+        console.log(res.data)
+        //if cookie is needed it the res.data format is somting like <html><body><script>document.cookie='rrrr9bf16d56=d1857bd7rrrr9bf16d56_d1857bd7; path=/';window.location.href=window.location.href;</script></body></html>
+        //check if the cookie format return
+        if (res.data.includes(`window.location.href=window.location.href;`)){
+            //define reg
+            const reg = /\'(.*?)\;/;
+            const match = reg.exec(res.data)[1]
+            //get the cookie name
+            cookieName = match.split('=')[0];
+            //get the cookie value
+            cookieValue = match.split('=')[1];
+            //call the function with the url and the checked cookies
+            res = await getData(url, cookieName,cookieValue);   
+            //console log the value
+            console.log(res.data)
+        }
+        
 
-        let res = await getData(url);   
-        console.log(res.data)  
         let xml = parser.parseFromString(res.data, "text/xml");
-        // console.log( xml);
-        // const cookies =  xml.getElementsByTagName('script')[0].childNodes[0].data;
-        // if (cookies.includes('window.location.href=window.location.href')) {
-        //     console.log('yes')
-        //     const regex =  /\'(.*?)\;/
-        //     const cookie = regex.exec(cookies)[1];
-        //     cookieName = cookie.split('=')[0];
-        //     cookieValue = cookie.split('=')[1];
-        //     console.log(cookie)
-        //     console.log(cookieName)
-        //     console.log(cookieValue)
-        //     res = await getData(url,cookieName,cookieValue)
-        //     xml = parser.parseFromString(res.data, "text/xml");
-        //     console.log(xml)
-            
-        // }
-        //get data from the xml return
+        //get data from res
         const rate = Math.round(xml.getElementsByTagName('RATE')[0].childNodes[0].data * 100) / 100;
         const name = xml.getElementsByTagName('NAME')[0].childNodes[0].data;
         const change = xml.getElementsByTagName('CHANGE')[0].childNodes[0].data;
@@ -84,6 +66,31 @@ async function getCurrency(num) {
     };
 }
 
+//function to get the currency data from bank of israel with cookies
+async function getData(url,cookieName,cookieValue) {
+    try {
+       let res = await axios({
+            url: url,
+            method: 'get',
+            timeout: 8000,
+            headers: {
+                Cookie: `${cookieName}=${cookieValue};`
+            }
+        })
+        if(res.status == 200){
+            // test for status
+            console.log("get bank of Israel, status:")
+            console.log(res.status)
+
+        }    
+        return res
+    }
+    catch (err) {
+        console.error(err);
+    }
+}
+
+
 //update data in place i of the db
 function updateCurrencyData(i) {
     //get all the currency from db
@@ -110,7 +117,6 @@ function updateCurrencyData(i) {
     
 }
 
-    
 // send to updateCurrencyData the number of currencies in db from 0
 function callUpdate() {
     Currency.find({ }, function (err, docs) {
