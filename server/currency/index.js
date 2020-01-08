@@ -1,4 +1,4 @@
-// require('../db/mongoose')
+require('../db/mongoose')
 const axios = require('axios');
 const Currency = require('../db/models/currency')
 var DOMParser = require('xmldom').DOMParser
@@ -7,8 +7,9 @@ var parser = new DOMParser();
 
 //get currency data from bank of israel
 async function getCurrency(num) {
-    const url = `http://www.boi.org.il/currency.xml?curr=0${num}`;
-
+    console.log(`the currency number is ${num}`);
+    const url = `http://www.boi.org.il/currency.xml?curr=${num}`;
+    console.log(`the url is ${url}`);
     try {
         //define cookie 
         let cookieName = 'cookieName';
@@ -42,9 +43,8 @@ async function getCurrency(num) {
         var d  = new Date(); 
         const datestring = ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" +
         d.getFullYear() + "  " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-
         //define query
-        var query = {'currencyNumber':num};
+        var query = {'currencyNumber':parseInt(num)};
         //defince new data
         newData = 
         {'rate':rate, 
@@ -57,6 +57,7 @@ async function getCurrency(num) {
             if (err) {
                 console.log(err)
                 return;}
+        console.log(newData);
         console.log("succesfully saved");
         return; 
         });
@@ -131,4 +132,3 @@ function setIntervalCurrency(){
 }
 
 module.exports = { setIntervalCurrency,getCurrency}
-getCurrency(1)
