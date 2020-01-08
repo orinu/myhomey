@@ -136,6 +136,12 @@ app.get('/newDayCounterDb', (req, res) => {
     insertNewDayCounterDb();
     return res.send(200, { message: 'ok' });
 })
+
+app.get('/updateCurrencyAndWeather', (req, res) => {
+  setIntervalCurrency()
+  setIntervalWeather()
+  return res.send(200, { message: 'ok' });
+})
  
  
 //send on timer total visitor via mail, not working well cuz the heroku server down every 30min
