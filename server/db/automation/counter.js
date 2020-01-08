@@ -24,7 +24,6 @@ async function insertNewDayCounterDb() {
         totalVisitors: await getTotalVisitors()
     })
 
-    console.log(newRow)
     newRow.save().then(() => {
       console.log("Daily counter record update sucssefully"  ,'\n' ,"The new record:",'\n', newRow);
     }).catch((error) => {
