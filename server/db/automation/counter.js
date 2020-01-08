@@ -25,11 +25,11 @@ async function insertNewDayCounterDb() {
     })
 
     console.log(newRow)
-//     newRow.save().then(() => {
-//       console.log("Daily counter record update sucssefully"  ,'\n' ,"The new record:",'\n', newRow);
-//     }).catch((error) => {
-//       console.log(error);
-// })
+    newRow.save().then(() => {
+      console.log("Daily counter record update sucssefully"  ,'\n' ,"The new record:",'\n', newRow);
+    }).catch((error) => {
+      console.log(error);
+})
 }
 
 //get the delta visitor between the total visitor to last record 
