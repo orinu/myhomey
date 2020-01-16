@@ -7,7 +7,7 @@ var nodemailer = require('nodemailer');
  
 const { setIntervalCurrency} = require('./currency/index')
 const { setIntervalWeather} = require('./weather/index')
-var {counter,counteruniqueVisitors ,getTotalCounter} = require('./counter/index')
+var {counter,counterUniqueVisitors ,getTotalCounter} = require('./counter/index')
  
 require('./db/mongoose')
 const Currency = require('./db/models/currency')
@@ -93,7 +93,7 @@ app.get ('/currency', async(req,res) => {
 //counter unique visitor and retun the generate id for the cookie 
 app.get ('/countUniqueUser', (req,res) => {
   //count 
-  counteruniqueVisitors();
+  counterUniqueVisitors();
   //generate id
   const UUCValue = '_' + Math.random().toString(36).substr(2, 9);
   console.log(`unique user, send generate id ${UUCValue}`);

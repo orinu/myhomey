@@ -9,7 +9,7 @@ function counter() {
     });
 }
 
-function uniqueVisitors() {
+function counterUniqueVisitors() {
     Counter.updateOne({name:'general'} , {$inc: {uniqueVisitors:1}} ,function (err, data) {
         // console.log(data)
         if (err) console.log(err)
@@ -21,4 +21,4 @@ function getTotalCounter() {
     return Counter.find({ name:'general' }).exec()
 }
 
-module.exports = {counter,uniqueVisitors, getTotalCounter}
+module.exports = {counter,counterUniqueVisitors, getTotalCounter}
