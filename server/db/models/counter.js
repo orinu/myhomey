@@ -5,7 +5,8 @@ const Counter = mongoose.model('Counter', {
     date: {type:Date},
     daily: {type:Number},
     monthly: {type:Number},
-    totalVisitors: {type: Number}
+    totalVisitors: {type: Number},
+    uniqueVisitors: {type: Number}
 })
 
 module.exports = Counter;

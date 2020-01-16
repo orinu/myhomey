@@ -101,8 +101,25 @@ function shabat() {
 }
 shabat();
 
-//FETCH DATA
-//fetch.fetchLinks();
+
+//get from the server unique id and count up the uniqueVisitor
+async function uniqueUsersCookies() {
+  //define UUC cookie
+  var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)UUC\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  //cheak if exist
+  if (!cookieValue){
+  //call the server to count up the unique user and get the id
+  const url = `http://myhomey.co.il/countUniqueUser}`;
+  try {
+    let res = await axios.get(`${url}`);  
+    //insert the UUC cookie value
+    document.cookie = `UUC=${res}`
+} catch(error) {
+    console.log(error);
+};
+}}
+uniqueUsersCookies();
+
 
 $(function() { 
 

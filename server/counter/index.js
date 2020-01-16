@@ -9,9 +9,16 @@ function counter() {
     });
 }
 
+function uniqueVisitors() {
+    Counter.updateOne({name:'general'} , {$inc: {uniqueVisitors:1}} ,function (err, data) {
+        // console.log(data)
+        if (err) console.log(err)
+    });
+}
+
 //return promise of totalVisitors from the db
 function getTotalCounter() {
     return Counter.find({ name:'general' }).exec()
 }
 
-module.exports = {counter, getTotalCounter}
+module.exports = {counter,uniqueVisitors, getTotalCounter}
