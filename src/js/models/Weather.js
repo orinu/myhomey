@@ -8,6 +8,20 @@ data = data.default;
   
 module.exports = class Weather {
     constructor() {
+
+        //define for all the darksky options for icons a html/icon html
+        this.icons = {
+            "clear-day": `<i class="small material-icons">wb_sunny</i>`, 
+            "clear-night": `<i class="small material-icons">wb_sunny</i>`, 
+            "rain": ` <img src="./img/icons/rain.png" alt="rain" height="32" width="32">  `,
+            "snow": `<img src="./img/icons/snowy.png" alt="rain" height="32" width="32">`, 
+            "sleet": ` <img src="./img/icons/rain.png" alt="rain" height="32" width="32">  `,
+            "wind": ` <img src="./img/icons/rain.png" alt="rain" height="32" width="32">  `,
+            "fog": ` <img src="./img/icons/fog.png" alt="rain" height="32" width="32">  `, 
+            "cloudy": `<i class="small material-icons">cloud_queue</i>`, 
+            "partly-cloudy-day": `<img src="./img/icons/partly-cloudy.png" alt="rain" height="32" width="32">`, 
+            "partly-cloudy-night": `<img src="./img/icons/partly-cloudy.png" alt="rain" height="32" width="32">`
+        }
     }
     
     async user() {
@@ -51,52 +65,80 @@ module.exports = class Weather {
         }
     
     try{
-        //http://localhost:3150/
-    const server = '/weather'
-    
-        const res = await axios(`${server}`);
-        // console.log(res.data)
 
-        //get the max and min temp of today
+        const server = '/weather'
+        const res = await axios(`${server}`);
+        //use dam value on the loacl server
+        // const res = {
+        //     data : {
+        //     "MaxTemp": [
+        //     15,
+        //     15,
+        //     13,
+        //     15,
+        //     14,
+        //     15,
+        //     14
+        //     ],
+        //     "MinTemp": [
+        //     13,
+        //     11,
+        //     11,
+        //     10,
+        //     12,
+        //     8,
+        //     5
+        //     ],
+        //     "icon": [
+        //     "rain",
+        //     "rain",
+        //     "rain",
+        //     "rain",
+        //     "partly-cloudy-day",
+        //     "rain",
+        //     "rain"
+        //     ],
+        //     "_id": "5d3f558fe45c7b967eb1941f",
+        //     "cityName": "Tel Aviv",
+        //     "lat": 32.0678,
+        //     "lon": 34.7647,
+        //     "timestamp": "2020-01-18T20:58:02.430Z",
+        //     "__v": 0
+        //     }
+        // }
+
+        //get the max and min temp of today 
         this.tempMin = Math.round(res.data.MinTemp[0]);
         this.tempMax = Math.round(res.data.MaxTemp[0]);
+        this.tempIcon = res.data.icon[0];
 
-        //array of max and min temp of the week
+        //array of max and min temp of the rest of the week
         this.maxWeek = res.data.MaxTemp;
         this.minWeek = res.data.MinTemp;
+        this.tempIcons = res.data.icon;
+
         //get the names of the week day heb
         let dayName = new DateFormat();
         this.DayNameWeek = dayName.getHebWeekDayName();
         
-        
-
-    //api
-    // const api = `https://api.darksky.net/forecast/321eb5bdb50ea50ecad85f4a28a4c67d/${this.lat},${this.lon}?units=si`;
-    //     const res = await axios(`${proxy}${api}`);
-    //     console.log(res)
-    //     this.tempMin = Math.round(res.data.daily.data[1].temperatureLow);
-    //     this.tempMax = Math.round(res.data.daily.data[1].temperatureMax);
-
-    //dam data
-        // this.tempMin = 22.32;  
-        // this.tempMax = 28.16; 
-        // this.tempMax = Math.round(this.tempMax);
-        // this.tempMin = Math.round(this.tempMin);
-
+    
     }catch (error) {
         console.log(error);
     }
 }
 
     displayWeather(){
+        //html for dispaly data in the main site
         document.getElementById("weather").innerHTML = `<span id="temp-min">${this.tempMax}</span><span>&#176;</span><span>&nbsp;-&nbsp;</span><span id="temp-max">${this.tempMin}</span><span>&#176;</span>`
+        document.getElementById("weatherIcon").innerHTML = `${this.icons[this.tempIcon]}`
+        //html for the dropdown of the rest of the week
         let weekWeather = document.getElementById("weekWeather");
         for (let i=1; i<7; i++)
         {
             weekWeather.innerHTML += 
            `<tr>
             <td>${this.DayNameWeek[i]}</td>
-            <td><i class="small material-icons yellow-text text-darken-2">wb_sunny</i></td>
+            <td>${this.icons[this.tempIcons[i]]}</td>
             <td>${this.minWeek[i]}&#176;-${this.maxWeek[i]}&#176;</td>
           </tr>`
         }
