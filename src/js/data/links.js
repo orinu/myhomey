@@ -89,6 +89,9 @@ let data ={};
       11:["https://best.aliexpress.com/?lan=en","./img/aliexpress.jpg",`אלי אספרסס`,`aliexpress`,46], 
       12:["https://www.clalit.co.il","./img/clalit.jpg",`כללית`,`clalit`,56], 
       13:["https://www.maccabi4u.co.il/","./img/maccabi.jpg",`מכבי`,`maccabi`,57], 
+      14:["https://www.morfix.co.il/","./img/morfix.jpg",`מורפיקס`,`morfix`,211], 
+      15:["https://web.whatsapp.com/","./img/whatsapp.jpg",`וואצאפ`,`whatsapp`,202],
+      16:["https://www.dropbox.com","./img/dropbox.jpg",`דרופבוקס`,`dropbox`,198], 
       'name':`תפריט אישי`
       
     },
@@ -109,6 +112,7 @@ let data ={};
       13:["https://www.jpost.com/","./img/jerusalempost.gif",`ג'רוזלם פוסט`,`Jpost`,13],
       14:["https://rotter.net/forum/listforum.php","./img/roter2.gif",`רוטר`,`Rotter`,14],
       15:["https://www.debka.co.il/","./img/debka.jpg",`תיק דבקה`,`debka`,14],
+      16:["https://www.baba-mail.co.il/","./img/babamail.jpg",`בא במייל`,`baba-mail`,203],
 
       'name': "חדשות"  
       },
@@ -152,6 +156,8 @@ let data ={};
         4:["https://twitter.com/","./img/twitter.jpg",`טוויטר`,`twitter`,42], 
         5:["https://www.tumblr.com/","./img/tunbler.jpg",`tumblr`,`tumblr`,43], 
         6:["https://web.telegram.org","./img/telegram.jpg",`טלגרם`,`telegram`,44], 
+        7:["https://web.whatsapp.com/","./img/whatsapp.jpg",`וואצאפ`,`whatsapp`,202], 
+        8:["https://imgur.com/","./img/imgur.jpg",`אימגר`,`imgur`,210], 
         'name': "חברתי"
       }, 
       shopping: {
@@ -166,9 +172,10 @@ let data ={};
         8:["https://www.zap.co.il/","./img/zap.jpg",`זאפ`,`zap`,53], 
         9:["https://www.wallashops.co.il/","./img/wallashops.jpg",`וואלה שופס`,`wallashops`,54], 
         10:["https://www.groo.co.il/","./img/groo.jpg",`גרופון`,`groo`,55],
-        
+        11:["https://shop.super-pharm.co.il/","./img/super-pharm.jpg",`סופר פארם`,`super-pharm`,210],     
         'name': "קניות"
       },emails: { 
+
         0:["https://mail.google.com/mail/u/0/","./img/gmail.jpg",`ג׳ימיל`,`gmdil`,101],
         1:["https://friends.walla.co.il/login","./img/mail-walla.jpg",`וואלה מייל`,`mail-walla`,102],
         2:["https://outlook.live.com/owa/","./img/outlook.jpg",`אווטלוק`,`outlook`,103],
@@ -208,6 +215,33 @@ let data ={};
         12:["https://www.kosherest.co.il/","./img/kosherest.jpg",`כשר נט`,` link`,81], 
         13:["https://xnet.ynet.co.il","./img/xnet.jpg",`אקס נט`,`xnet`,82], 
         'name': "אוכל ומתכונים"
+      },  
+      cloud: {
+        0:["https://www.mega.nz","./img/mega.jpg",`מגה`,`mega`,195], 
+        1:["https://www.google.com/drive/","./img/googledrive.jpg",`גוגל דרייב`,`google drive`,196],
+        2:["https://onedrive.live.com/","./img/onedrive.jpg",`וואן דרייב`,`onedrive`,197], 
+        3:["https://www.dropbox.com","./img/dropbox.jpg",`דרופבוקס`,`dropbox`,198], 
+        4:["https://www.sugarsync.com/","./img/sugarsync.jpg",`שוגרסינק`,`sugarsync`,199], 
+        5:["https://www.box.com/home","./img/box.jpg",`בוקס`,`box`,200],
+        'name': "שירותי ענן"
+      },
+      games: {
+        0:["https://www.twitch.tv/","./img/twitch.jpg",`טוויצ׳`,`twitch`,204], 
+        1:["https://store.steampowered.com/","./img/steam.jpg",`סטים`,`steam`,205],
+        2:["https://hsreplay.net/","./img/hsreplay.jpg",`אצ אס ריפלי`,`hsreplay`,206], 
+        3:["https://www.hearthpwn.com/","./img/hearthpwn.jpg",`הירצ׳פאון`,`hearthpwn`,207], 
+        4:["https://www.kiloo.com/","./img/kiloo.jpg",`קילו`,`kiloo`,208], 
+        5:["https://www.gamesgames.com/","./img/gamesgames.jpg",`גאימגאים`,`gamesgames`,209],
+        'name': "משחקים"
+      },
+      
+      translate: {
+        0:["https://www.morfix.co.il/","./img/morfix.jpg",`מורפיקס`,`morfix`,211], 
+        1:["https://translate.google.com/?hl=iw#","./img/translate-google.jpg",`גוגל טרנסלייט`,`translate-google`,212],
+        2:["https://www.bing.com/translator/","./img/bing-translator.jpg",`תרגום בינג`,`bing-translator`,213], 
+        3:["https://hebrew.babylon-software.com/","./img/babylon.jpg",`באבילון`,`babylon`,214], 
+        4:["https://arabdictionary.huji.ac.il/","./img/arabdictionary.jpg",`מילון עברי ערבי`,`arabdictionary`,215], 
+        'name': "תרגום"
       },
       travel: {
         0:["https://www.booking.com","./img/booking.jpg",`בווקינג`,`booking`,83], 
@@ -240,6 +274,7 @@ let data ={};
         3:["https://www.lovely.co.il","./img/lovely.jpg",`לאב לי`,`lovely`,109],
         4:["https://www.2become1.co.il","./img/2become1.jpg",`שניים שהם אחד`,`2become1`,110],
         5:["http://www.yahad.co.il/","./img/yahad.jpg",`יחד`,`yahad`,111],
+        6:["https://www.date4dos.co.il/","./img/date4dos.jpg",`שליש גן עדן`,`date4dos`,201],
         'name': "הכרויות"
       },
       cars: {
@@ -346,3 +381,4 @@ let data ={};
   };
 
 export default data;
+/*215*/

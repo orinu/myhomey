@@ -31,7 +31,6 @@ const app = express();
  
 app.use(express.static(dist));
 app.use(cookieParser());
-app.use(cors());
 app.use(bodyParser());
  
 //start data get intervals
@@ -69,26 +68,36 @@ app.get ('/weather', async(req,res) => {
  
  
 app.get ('/currency', async(req,res) => {
-  //no query body
-  if (!req.query.curnum) {
-    return res.send( {
-      'error': 'You must provide a currency number'
-    }) }
-     
-    let fixNumber = req.query.curnum;
-    //validate the number that is 2 digit
-    if (req.query.curnum<10) {
-        fixNumber = ('00'+req.query.curnum).slice(-2);
-    }
-    //query of currency number from the sql
+
     try {
-    const cur = await Currency.find({currencyNumber:fixNumber})
-    res.send(cur[0])
+    const cur = await Currency.find()
+    res.send(cur)
     } catch (e) {
       res.status(500).send()
   }
+})
+
+
+  // //no query body
+  // if (!req.query.curnum) {
+  //   return res.send( {
+  //     'error': 'You must provide a currency number'
+  //   }) }
      
-  })
+  //   let fixNumber = req.query.curnum;
+  //   //validate the number that is 2 digit
+  //   if (req.query.curnum<10) {
+  //       fixNumber = ('00'+req.query.curnum).slice(-2);
+  //   }
+  //   //query of currency number from the sql
+  //   try {
+  //   const cur = await Currency.find({currencyNumber:fixNumber})
+  //   res.send(cur[0])
+  //   } catch (e) {
+  //     res.status(500).send()
+  // }
+     
+  // })
  
 //counter unique visitor and retun the generate id for the cookie 
 app.get ('/countUniqueUser', (req,res) => {

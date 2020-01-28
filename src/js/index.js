@@ -11,8 +11,10 @@ import data from "./data/data";
 
 import * as fetch from "./data/fetchdata";
 
+import * as currency from './models/Currency';
+
+
 var DateFormat = require('./models/DateFormats');
-var Currency = require('./models/Currency');
 var Weather = require('./models/Weather');
 var Shabat = require('./models/Shabat');
 var {detectBrowser} = require('./models/general/browserAdustment');
@@ -25,28 +27,12 @@ import Newlink from './models/general/Newlink';
 //inner html data for making homepage
 detectBrowser();
 
-
-//Update corrency
-const updateDollar = async () => {
-  var usd = new Currency(1);
-  await usd.getResults();
-  usd.displayCurrency("dollar");
-};
-
-const updateEuro = async () => {
-  var euro = new Currency(27);
-  await euro.getResults();
-  euro.displayCurrency("euro");
-};
-
-updateDollar();
-updateEuro();
-
-//interval update currency 
+//update currency and run timer
+currency.getCurrencyValues();
 window.setInterval(function(){ 
-  updateDollar();
-  updateEuro();
-}, 60*60*1000);
+  currency.getCurrencyValues();
+  console.log('now')
+}, 15*60*1000);  //every 15 min
 
 //First update date and clock
 let now = new DateFormat()
@@ -127,6 +113,7 @@ $(function() {
 
   //Nav dropdown
   $(".dropdown-trigger").dropdown({coverTrigger: false , hover: true})
+  $(".dropdown-trigger.currency").dropdown({coverTrigger: false , hover: true, constrainWidth:true})
   $(".dropdown-trigger.ddhover").dropdown({coverTrigger: false , hover: true , constrainWidth: false})
   
  

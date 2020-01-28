@@ -172,18 +172,25 @@
               <div class="col s1"> </div>
               <div class="col s2 center-align" > 
                   <span id ="parasha"></span>
-
                   <span></span><br>
-                  
-                  
                 </div>
-              <div class="col s1 divide center-align" ><i class="small material-icons ">attach_money</i> 
-                <br><span id="dollar">  </span>
-            </div>
-              <div class="col s1 center-align " > <i class="small material-icons">euro_symbol</i>
-                <br><span id="euro">  </span>
+
+               <!--currency-->
+            <div class= "col s2 center-align dropdown-trigger currency" data-target="currency-dropdown">
+              <div class="row">
+                <div class="col s3 divide" ></div>
+                  <div class="col s1" ><i class="small material-icons ">attach_money</i> 
+                    <br><span id="Dollar">  </span>
+                  </div>
+                  <div class="col s5" ></div>
+                  <div class="col s1" > <i class="small material-icons">euro_symbol</i>
+                    <br><span id="Euro">  </span>
+                </div>
+              </div>
             </div>
             
+
+                <!--wheather-->
               <div class="col s2 divide center-align weather dropdown-trigger " data-target="wheather-dropdown"  > <span id="weatherIcon"></span>
                 <br><span id="weather"></span>
             </div>
@@ -204,10 +211,19 @@
       </div>
     </div>
             
+    <!--wheather dropdown-->
     <div id="wheather-dropdown" class="dropdown-content">
         <div>
             <table class="highlight" id="weekWeather">
               
+            </table>
+        </div>
+    </div>
+
+    <!--currency dropdown-->
+    <div id="currency-dropdown" class="dropdown-content">
+        <div>
+            <table class="highlight" id="currencyList">
             </table>
         </div>
     </div>

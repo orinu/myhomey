@@ -21,4 +21,4 @@ function getTotalCounter() {
     return Counter.find({ name:'general' }).exec()
 }
 
-module.exports = {counter,counterUniqueVisitors, getTotalCounter}
+module.exports = {counter,counterUniqueVisitors, getTotalCounter}   
