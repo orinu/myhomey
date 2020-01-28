@@ -94,12 +94,12 @@ export const getCurrencyValues = async () => {
   //Crypto coins
   const currencyNames = {
     'BTC': ["ביטקוין",`<img src="./img/currency/bitcoin.png" height="28" width="32">`],
-    'ETH': [`את'ריום`,`<img src="./img/currency/ethereum.png" height="28" width="32">`]
+    'ETH': [`את'ריום`,`<img src="./img/currency/ethereum.png" height="28" width="32">`],
+    'LTC': [`לייטקוין`,`<img src="./img/currency/litecoin.png" height="28" width="32">`]
   }
   const currencyName = Object.keys(currencyNames);
   //add the crypto curnncy to the html dropdown
-  for (let i = 0; i<currencyName.length; i++){
-    console.log(i)
+  for (let i = 0; i<currencyName.length; i++){  
     /*the object is in format: 
     {
       base: 'BTC',
