@@ -6,11 +6,11 @@ export const getCurrencyValues = async () => {
     //init the table of the dropdown contant
     document.getElementById('currencyList').innerHTML = ``;
 
-    //get the value from the server
+    // get the value from the servers
     const url = `/currency`;
     let res = await axios.get(`${url}`);  
 
-    //dummy values local 
+  //   // dummy values local 
   //   let res = {data: [
   //     {
   //         "_id": "5d3e300db14ee57daac9bff3",
@@ -68,6 +68,7 @@ export const getCurrencyValues = async () => {
   //         "__v": 0
   //     }
   // ]}
+
   //display the 2 main currency
   for (let i = 0; i<2; i++){
       //define color as green
@@ -90,27 +91,27 @@ export const getCurrencyValues = async () => {
       <td class="right-align">${res.data[i].htmlIcon}</td>
       <td class="center-align" style="color: ${color}">₪${res.data[i].rate}</td>
       </tr>`;
-  }
-  //Crypto coins
-  const currencyNames = {
+  }}catch(error) {
+    console.log(error);
+  };
+
+  //CRYPTO COIN
+  try {    
+   const currencyNames = {
     'BTC': ["ביטקוין",`<img src="./img/currency/bitcoin.png" height="28" width="32">`],
     'ETH': [`את'ריום`,`<img src="./img/currency/ethereum.png" height="28" width="32">`],
     'LTC': [`לייטקוין`,`<img src="./img/currency/litecoin.png" height="28" width="32">`]
   }
+  //insert the keys to an array
   const currencyName = Object.keys(currencyNames);
   //add the crypto curnncy to the html dropdown
-  for (let i = 0; i<currencyName.length; i++){  
-    /*the object is in format: 
-    {
-      base: 'BTC',
-      target: 'USD',
-      price: '9040.60409460',
-      volume: '108272.58598317',
-      change: '33.33339437'
-    }
-        */
-  price.getCryptoPrice('USD', currencyName[i]).then(obj => {
-    //define color as green
+  for (let i = 0; i<currencyName.length; i++){ 
+    //axios get request to cryptonator
+    const url = `https://api.cryptonator.com/api/ticker/${currencyName[i]}-usd`;
+    let res = await axios.get(url);
+    //define obf as ticjer obj
+    const obj = res.data.ticker;
+    // define color as green
     let color ='green';    
     //change color if the currency rate is down
     if (obj.change<0) color = 'red';
@@ -121,15 +122,8 @@ export const getCurrencyValues = async () => {
     <td class="right-align">${currencyNames[currencyName[i]][1]}</td>
     <td class="center-align" style="color: ${color}">$${Math.round(obj.price).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
     </tr>`;
-
-    }).catch(err => {
-    console.log(err)
-})
-
   }
-    
   }catch(error) {
     console.log(error);
-  };
+  }; 
 }
-

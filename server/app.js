@@ -29,7 +29,7 @@ const dist = path.join(__dirname , '../dist')
  
 const app = express();
  
-app.use(express.static(dist));
+app.use(express.static(dist , { dotfiles: 'allow' } ));
 app.use(cookieParser());
 app.use(bodyParser());
  

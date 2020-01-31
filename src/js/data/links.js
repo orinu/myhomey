@@ -223,7 +223,7 @@ let data ={};
         3:["https://www.dropbox.com","./img/dropbox.jpg",`דרופבוקס`,`dropbox`,198], 
         4:["https://www.sugarsync.com/","./img/sugarsync.jpg",`שוגרסינק`,`sugarsync`,199], 
         5:["https://www.box.com/home","./img/box.jpg",`בוקס`,`box`,200],
-        'name': "שירותי ענן"
+        'name': "ענן"
       },
       games: {
         0:["https://www.twitch.tv/","./img/twitch.jpg",`טוויצ׳`,`twitch`,204], 
