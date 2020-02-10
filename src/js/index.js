@@ -96,9 +96,8 @@ async function uniqueUsersCookies() {
   var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)UUC\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   //cheak if exist
   if (!cookieValue){
-    console.log('no cookie')
   //call the server to count up the unique user and get the id
-  const url = `http://myhomey.co.il/countUniqueUser`;
+  const url = `http://www.myhomey.co.il/countUniqueUser`;
   try {
     let res = await axios.get(`${url}`);  
     console.log(res.data)
