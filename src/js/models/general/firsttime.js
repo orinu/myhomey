@@ -1,87 +1,50 @@
+import { Dropdown } from "materialize-css";
 
-//First Time modals
-$(".modal.firsttime").modal({onOpenStart: firstTime(1)});
+//When the modal is open send 1 to FirstTimeModal
+$(".modal.firsttime").modal({onOpenStart: firstTimeModal(1)});
 
-function firstTime (counter)  {
-  //array of all the links objects
-  const contaienrs = Object.keys(data.links);
-  //start on container 1
-  document.getElementById("firsttime-title").innerHTML = data.links[contaienrs[counter]].name;
-  const countlinks = Object.keys(data.links[contaienrs[counter]]);
-
-  //inner html iside the modal
-  let linksli = document.getElementById("firsttime-links");
-  //rest the html
-  linksli.innerHTML = "";
-
-  //display the title and all the links 
-  for (let i=0;i<countlinks.length; i++) {
-    if (countlinks[i].trim() !== "name") { 
-    linksli.innerHTML +=  
-    `<li class="box responsive-img waves-effect waves-light" id="firsttime-link" data-contianer="${contaienrs[counter]}" data-idnumber="${[i]}">
-    <img class="responsive-img waves-effect waves-light" src="${data.links[contaienrs[counter]][i][1]}" draggable="false">
-    </li>`;
-  }}
+//main function - edit the html of the modal
+function firstTimeModal (pageNumber)  {
+//define the titles and the gif path
+const objnumber = {
+  1: ['<span class="hometext">בהעברת עכבר ניתן לצפות בתחזית שבועית, שערי מטבעות, ערוצי טלוויזיה וערוצי רדיו:</span><br><br>','<img src ="./img/first-time/dorpdown.gif" alt="animate"  height="60%" width="90%" />'],
+  2: ['<span class="hometext">בלחיצת כפתור ניתן לחפש בגוגל, יוטיוב, גוגל תמונות, וקיפדיה ופינטרסט:</span><br><br>  ' , '<img src ="./img/first-time/search.gif" alt="animate"  height="60%" width="70%" />'],
+  3: ['<span class="hometext">ניתן לשנות את סדר הקישורים בתפריט הראשי ואת סדר התפריטים  עי״ גרירה. הנתונים ישמרו גם ללא הרשמה:</span><br><br>  ' , '<img src ="./img/first-time/transfer.gif" alt="animate" height="60%" width="60%"/>'],
+  4: ['<span class="hometext">הוספה והסרת קישורים בקלות ובנוחות דרך ״ערוך תפריט אישי״:</span><br><br>  ' , '<img src ="./img/first-time/menumenu.gif" alt="animate"  height="60%" width="70%" />']
+}
+  //if the pageNumber is 5 close the modal
+  if (pageNumber>Object.keys(objnumber).length) {
+    $(".modal.firsttime").modal('close');
+  }
+  //change the previous color to grey and the data-mark from yes to '' 
+  $(".first-time-page[data-marked=yes]").children().css('color', '#78909c');
+  $(".first-time-page[data-marked=yes]").attr('data-marked', '');
+  //change the pageNumber color to blue and the data-mark to yes
+  $(".first-time-page[data-page="+pageNumber+"]").children().css('color', '#283593');
+  $(".first-time-page[data-page="+pageNumber+"]").attr('data-marked', 'yes');
+  //locate sub-title of the modal
+  let subHtml = document.getElementById("first-time-sub-title");
+  //locate gif of the modal
+  let gifHtml = document.getElementById("first-time-gif");
+  //inset the sub html
+  subHtml.innerHTML =objnumber[pageNumber][0];
+  //inset the gif html
+  gifHtml.innerHTML =objnumber[pageNumber][1];
 }
 
-//run on the rest of the links by counter
-let counter = 1;
-$(document).on("click", '#next-firsttime' , function() {
-  counter++;
-  const numberlinks = Object.keys(data.links).length-1;
-  if (counter<=numberlinks) {
-    firstTime(counter);
-  }
-  else {
-    document.getElementById("sub-title-first-time").innerHTML = ''
-    document.getElementById("firsttime-title").innerHTML = 'סיימנו, הכל מוגדר!'
-    document.getElementById("firsttime-links").innerHTML = ' באפשרותך לערוך תמיד את תפריטך האישי ע״י לחיצה על כפתור העריכה או גרירת הקישורים. <br> אנו מאחלים לך הנאה בעת שימושך באתר!'
-
-  }
+//handler - click on one of the circle
+$(document).on("click", '.first-time-page' , function(e) {
+  e.preventDefault();
+  const dataPage =  $(this).attr("data-page");
+  firstTimeModal(dataPage)
 })
 
-//when cilck on the link inside the modal
-$(document).on("click", '#firsttime-link' , function() {
-  //the way to recognize if unclick is by the border, if 230 , unclick
-  //unchoose click //defualt 1px solid rgb(179, 179, 179) , hever 2px solid rgb(75, 90, 229)
-  if ( $(this).css('border') === "2px solid rgb(75, 90, 230)")  {
-    $(this).css('border', '1px solid rgb(179, 179, 179)')
-    //get data on the clicked link
-    let idLink = $(this).attr('data-idnumber');
-    let contianerName = $(this).attr('data-contianer');
-    let idnumber = data.links[contianerName][idLink][4];
-    let keymenu = $("li[data-idnumber="+idnumber+"]").attr("data-keymenu");
-    //the number of links after delceting
-    const last = Object.keys(data.links.menu).length-2;
-    //run on the object and change the data
-        for (var i=keymenu; i<=last; i++) {
-          data.links.menu[i] = data.links.menu[parseInt(i)+1];
-        }
-        console.log(data.links.menu)
-        //delete the last row
-        delete data.links.menu[last];
-        //save the data
-        localStorage.setItem('data', JSON.stringify(data));
-        //update the links in the main menu 
-        fetch.fetchMenu();
 
-  }else {// if link click for the first time (choosed)
-    // chage border
-    $(this).css('border', '2px solid rgb(75, 90, 230');
-    //get data
-    let contianerName = $(this).attr('data-contianer');
-    let idLink = $(this).attr('data-idnumber');
-    // last in menu under links
-    let lastInMenu =  Object.keys(data.links.menu).length-1;
-    //for empty menu, first category
-    if (lastInMenu<0) {
-      lastInMenu = 0;
-    }
-    //add the link to the menu
-    data.links.menu[lastInMenu] = data.links[contianerName][idLink]
-    //save the data
-    localStorage.setItem('data', JSON.stringify(data));
-    //fetch the menu in the main page
-    fetch.fetchMenu();
-  }
+//handler - click on next btn
+$(document).on("click", '.next.first-page' , function(e) {
+  e.preventDefault();
+  //calculate the number page and inc by one
+  const dataPage = parseInt($(".first-time-page[data-marked=yes]").attr('data-page'))+1;
+  //send to firsTimeModel
+  firstTimeModal(dataPage)
 })

@@ -116,12 +116,14 @@
 }
 
 
+/*
 .box-container-firsttime { 
   border:2px solid #ccc; 
   width:950px; 
   height: 300px; 
   overflow-y: scroll; 
 }
+*/
 
 
 .name-add {
@@ -166,16 +168,16 @@
       <div class="row"></div>
 
       
-
-      <div class="container up data">
+<!--up models-->
+      <div class="container up data" id="container-up">
           <div class="row">
               <div class="col s1"> </div>
-              <div class="col s2 center-align" > 
+            <!--parasha-->  
+              <div class="col s2 center-align"  > 
                   <span id ="parasha"></span>
                   <span></span><br>
                 </div>
-
-               <!--currency-->
+            <!--currency-->
             <div class= "col s2 center-align dropdown-trigger currency" data-target="currency-dropdown">
               <div class="row">
                 <div class="col s3 divide" ></div>
@@ -188,15 +190,15 @@
                 </div>
               </div>
             </div>
-            
-
-                <!--wheather-->
+            <!--wheather-->
               <div class="col s2 divide center-align weather dropdown-trigger " data-target="wheather-dropdown"  > <span id="weatherIcon"></span>
                 <br><span id="weather"></span>
             </div>
+            <!-- time-->
               <div class="col s2 divide center-align time" >   <i class="small material-icons">access_time</i>
                 <br> <span id="time">    </span> 
             </div>
+             <!--date -->
               <div class="col s2 divide date" > 
                   <h6 class="teal-text"> <span style="font-size: 19px;" id="engdate">    </span> </h6> 
                  <span id="hebdate"> <h6>     </h6> </span></div>
@@ -234,7 +236,7 @@
 
   <body>
     
-      <div class="container">
+      <div class="container" id="search-container">
         <div class="col s10 offset-s2">
           <div class="row"></div>
           <div class="row"></div>
@@ -461,35 +463,37 @@
         </div>
       </div>
       
+
        <!-- first time enter modal-->
       <a  id="first-time-button" class="waves-effect waves-light btn modal-trigger" href="#firstTime" style="display: none">Modal</a>
     <div id="firstTime" class="modal firsttime">
         <div class="modal-content">
-            <h4 class="teal-text" ><span> ברוכים הבאים ל-</span><span>&nbsp;MyHomey,&nbsp;</span><span>אתר הבית שלכם</span>
-              <div class="row"> </div>
+            <h4 class="teal-text" ><span> ברוכים הבאים ל-</span><span>&nbsp;MyHomey,&nbsp;</span><span>אתר הבית החכם בעולם</span></h4>
             <div class="divider"></div>
-            <div class="row"> </div>
-            <h5> נשמח לעזור לך להגדיר את התפריט האישי שלך בכמה שניות</h5><br>
-              <div >
-              <span class="hometext" id="sub-title-first-time">בחר את האתרים אשר תרצה להוסיף לתפריט האישי שלך:</span><br>
-              <br>
-              </div>
+            <h5> נשמח להציג לך בכמה שניות חלק מהשימושים באתר </h5>
+            <!--sub title inner html-->
+              <div id="first-time-sub-title"> </div>
               <div class="row">
-                <div class="col s1">
-                  <br><br><br><br><br>
-                  <a herf="#!" class="waves-effect waves-light " id="next-firsttime"> <i class="large material-icons teal-text">arrow_back</i> </a>
-                </div>
+                <div class="col s1"><br><br><br></div>
                 <div class="col s1"></div>
                   <div class="col s9 box-container-firsttime">
-                      <h5 class="right-align teal-text " id="firsttime-title"></h5>
-                      <div class="divider"></div><br>
-                      <ui class="link-list" id="firsttime-links">
-                      </ui>                 
-              </div>
+                    <!-- insert the body gif-->
+                    <div id="first-time-gif"></div>         
+                 </div> 
             </div>
+            
                 <div class="row">
-          
-                  <div class="col s1"><a href="#!" class="waves-effect modal-close waves-light btn">דלג</a></div>    
+                  <div class="col s2  "></div>
+                  <div class="col s1"><a href="#!" class="waves-effect waves-light btn next first-page">הבא</a></div>    
+                  <div class="col s3"></div>
+                  <div class="col s2">
+                   <a href="#!" class="first-time-page" data-page="1" data-marked="yes">    <i class="tiny material-icons" style="color: #283593">brightness_1</i> </a>&nbsp;
+                   <a href="#!" class="first-time-page" data-page="2" data-marked="">    <i class="tiny material-icons" style="color: #78909c">brightness_1</i></a>&nbsp;
+                   <a href="#!" class="first-time-page" data-page="3" data-marked="">    <i class="tiny material-icons" style="color: #78909c">brightness_1</i></a>&nbsp;
+                   <a href="#!" class="first-time-page" data-page="4" data-marked=""> <i class="tiny material-icons" style="color: #78909c">brightness_1</i></a>&nbsp;
+                  </div>
+                  <div class="col s3"></div>
+                  <div class="col s1"><a href="#!" class="waves-effect modal-close waves-light btn first-time" >דלג</a></div>    
               </div>
 
               </div>

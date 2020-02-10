@@ -12,6 +12,8 @@ import data from "./data/data";
 import * as fetch from "./data/fetchdata";
 
 import * as currency from './models/Currency';
+import * as firsttime from './models/general/firsttime';
+import {isMobile} from './models/general/mobile';
 
 
 var DateFormat = require('./models/DateFormats');
@@ -522,12 +524,17 @@ function getContactHtml ()  {
       }
     });
 
-/*
-    //first time , open modal
-    if (data.user.firstTime === 'yes') {
-      $("#first-time-button")[0].click();
-    }  */
 
+    //if first time , open modal all the handler in firsttime model
+    if (data.user.firstTime === 'yes' && isMobile==false) {
+      $("#first-time-button")[0].click();
+      //change the first time to no
+      data.user.firstTime === 'no';
+      //save the data
+      localStorage.setItem('data', JSON.stringify(data));
+
+    }  
+   
 });
 
  

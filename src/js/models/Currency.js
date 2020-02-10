@@ -1,5 +1,4 @@
 const axios = require('axios');
-let price = require('crypto-price')
 
 export const getCurrencyValues = async () => {
   try {
