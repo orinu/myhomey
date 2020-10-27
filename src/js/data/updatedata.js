@@ -2,7 +2,7 @@ import data from "./data";
 import links from "./links";
 
 //the update version
-const updateVersion = 2;
+const updateVersion = 3;
 
 //last saved data on the localstorage
 const savedVersion = Object.keys(data.version);

@@ -38,20 +38,21 @@ async function getLastDayVisitors() {
     console.log(lastWeek)
 
     //get the last week records
-    const result1 = await Counter.find({date: {$gte: lastWeek, $lt:today }});
-        // console.log(result1)
+    const genRes = await Counter.find().sort({date:-1});
+    const result1 = genRes[0];
+        console.log(result1)
 
     //run on the array and get pointer of the newest record
-    let pointer=0;
-    let date= new Date(0);
-    for (let i=0; i<result1.length; i++) {
-        if (result1[i].date>date){
-            date=result1[i].date;
-            pointer=i; 
-        }
-    }
+    // let pointer=0;
+    // let date= new Date(0);
+    // for (let i=0; i<result1.length; i++) {
+    //     if (result1[i].date>date){
+    //         date=result1[i].date;
+    //         pointer=i; 
+    //     }
+    // }
     //get the totalVisitor of newest record
-    const TotalVisitorYesterday = result1[pointer].totalVisitors;
+    const TotalVisitorYesterday = result1.totalVisitors;
    
     //get the totalVisitors in general
     const result2 = await Counter.find({name: 'general'})
