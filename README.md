@@ -1,4 +1,4 @@
-# myhomey
+# MyHomey
 
 ## Summary
 
